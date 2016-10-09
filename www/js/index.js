@@ -23,18 +23,13 @@ var app = {
         nfc.addMimeTypeListener('text/any', app.onNfc, success, failure);
     },
     onNfc: function(nfcEvent) {
-        var tag = nfcEvent.tag,
-            ndefMessage = tag.ndefMessage;
+			var tag = nfcEvent.tag,
+            ndefMessage = tag.ndefMessage,
+			record = ndefMessage[0];
 
-        // dump the raw json of the message
-        // note: real code will need to decode
-        // the payload from each record
-        alert(JSON.stringify(ndefMessage));
-
-        // show the payload of the first record as a string
-        // might produce junk depending on the record type
-        alert(nfc.bytesToString(ndefMessage[0].payload).substring(1));
-
+		
+		var text = ndef.textHelper.decodePayload(record.payload);
+		alert("text: " + text);
     }
 };
 
